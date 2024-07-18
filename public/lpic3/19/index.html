@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://croissant.github.io/it-certs/images/favicon.png" />
+<title>クラウド管理ツール 用語とユーティリティ | it-certs</title>
+<meta name="title" content="クラウド管理ツール 用語とユーティリティ" />
+<meta name="description" content="IaaS, PaaS, SaaS IaaS (Infrastructure as a Service):
+概要: IaaSは、クラウドプロバイダが物理的なコンピューティングインフラストラクチャ（仮想サーバー、ストレージ、ネットワークなど）を提供するサービスです。 特徴: ユーザーは、自分自身でオペレーティングシステム、アプリケーション、データを管理する責任があります。例えば、AWSのEC2やAzureの仮想マシンがIaaSの例です。 PaaS (Platform as a Service):
+概要: PaaSは、開発者がアプリケーションを開発・実行・管理するためのプラットフォームを提供するサービスです。 特徴: ユーザーはアプリケーションのコードとデータに焦点を当て、プラットフォームがバックエンドインフラストラクチャの管理を担当します。例えば、Google App EngineやHerokuがPaaSの例です。 SaaS (Software as a Service):
+概要: SaaSは、クラウド経由で提供されるアプリケーションソフトウェアを指します。 特徴: ユーザーは、アプリケーションに対して利用料金を支払い、そのアプリケーションを利用することができます。例えば、SalesforceやGoogle WorkspaceがSaaSの例です。 OpenStack 概要: OpenStackは、オープンソースのクラウドコンピューティングプラットフォームであり、仮想マシンやストレージ、ネットワーキングを含むインフラストラクチャの管理を可能にします。 主な機能: Nova: コンピュートサービスで、仮想マシンの管理を行います。 Neutron: ネットワーキングサービスで、仮想ネットワークの管理を行います。 Cinder: ブロックストレージサービスで、永続的なブロックストレージの提供を行います。 Swift: オブジェクトストレージサービスで、大容量の非構造化データの管理を行います。 Horizon: ウェブベースのダッシュボードで、OpenStackリソースの可視化と管理を行います。 Terraform 概要: Terraformは、ハッシュコーポレーションによって開発されたオープンソースのインフラストラクチャのコード化ツールで、クラウドインフラストラクチャのプロビジョニングと管理を自動化します。 主な機能: 宣言的言語: HCL (HashiCorp Configuration Language)を使用して、インフラストラクチャのリソースを定義します。 プロバイダ: AWS、Azure、GCPなどのクラウドプロバイダや、Docker、GitHubなどのサービスに対するプロバイダがあります。 インフラストラクチャの状態管理: マルチクラウド環境でのインフラストラクチャの状態を管理し、変更の適用やリソースの更新を行います。 これらのツールとプラットフォームは、クラウド環境でのインフラストラクチャの管理やアプリケーションのデプロイメントを効率化し、柔軟性を高めるための重要な役割を果たしています。" />
+<meta name="author" content="" />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="クラウド管理ツール 用語とユーティリティ" />
+<meta property="og:description" content="IaaS, PaaS, SaaS IaaS (Infrastructure as a Service):
+概要: IaaSは、クラウドプロバイダが物理的なコンピューティングインフラストラクチャ（仮想サーバー、ストレージ、ネットワークなど）を提供するサービスです。 特徴: ユーザーは、自分自身でオペレーティングシステム、アプリケーション、データを管理する責任があります。例えば、AWSのEC2やAzureの仮想マシンがIaaSの例です。 PaaS (Platform as a Service):
+概要: PaaSは、開発者がアプリケーションを開発・実行・管理するためのプラットフォームを提供するサービスです。 特徴: ユーザーはアプリケーションのコードとデータに焦点を当て、プラットフォームがバックエンドインフラストラクチャの管理を担当します。例えば、Google App EngineやHerokuがPaaSの例です。 SaaS (Software as a Service):
+概要: SaaSは、クラウド経由で提供されるアプリケーションソフトウェアを指します。 特徴: ユーザーは、アプリケーションに対して利用料金を支払い、そのアプリケーションを利用することができます。例えば、SalesforceやGoogle WorkspaceがSaaSの例です。 OpenStack 概要: OpenStackは、オープンソースのクラウドコンピューティングプラットフォームであり、仮想マシンやストレージ、ネットワーキングを含むインフラストラクチャの管理を可能にします。 主な機能: Nova: コンピュートサービスで、仮想マシンの管理を行います。 Neutron: ネットワーキングサービスで、仮想ネットワークの管理を行います。 Cinder: ブロックストレージサービスで、永続的なブロックストレージの提供を行います。 Swift: オブジェクトストレージサービスで、大容量の非構造化データの管理を行います。 Horizon: ウェブベースのダッシュボードで、OpenStackリソースの可視化と管理を行います。 Terraform 概要: Terraformは、ハッシュコーポレーションによって開発されたオープンソースのインフラストラクチャのコード化ツールで、クラウドインフラストラクチャのプロビジョニングと管理を自動化します。 主な機能: 宣言的言語: HCL (HashiCorp Configuration Language)を使用して、インフラストラクチャのリソースを定義します。 プロバイダ: AWS、Azure、GCPなどのクラウドプロバイダや、Docker、GitHubなどのサービスに対するプロバイダがあります。 インフラストラクチャの状態管理: マルチクラウド環境でのインフラストラクチャの状態を管理し、変更の適用やリソースの更新を行います。 これらのツールとプラットフォームは、クラウド環境でのインフラストラクチャの管理やアプリケーションのデプロイメントを効率化し、柔軟性を高めるための重要な役割を果たしています。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://croissant.github.io/it-certs/lpic3/19/" />
+
+<meta property="og:image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_b5e40613fe5faab87a84a6351c6de1fc.webp"/><meta property="article:section" content="lpic3" />
+<meta property="article:published_time" content="2024-07-18T19:32:02+09:00" />
+<meta property="article:modified_time" content="2024-07-18T19:32:02+09:00" /><meta property="og:site_name" content="Bear Cub" />
+<meta property="fb:admins" content="0000000000" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_b5e40613fe5faab87a84a6351c6de1fc.webp"/>
+<meta name="twitter:title" content="クラウド管理ツール 用語とユーティリティ"/>
+<meta name="twitter:description" content="IaaS, PaaS, SaaS IaaS (Infrastructure as a Service):
+概要: IaaSは、クラウドプロバイダが物理的なコンピューティングインフラストラクチャ（仮想サーバー、ストレージ、ネットワークなど）を提供するサービスです。 特徴: ユーザーは、自分自身でオペレーティングシステム、アプリケーション、データを管理する責任があります。例えば、AWSのEC2やAzureの仮想マシンがIaaSの例です。 PaaS (Platform as a Service):
+概要: PaaSは、開発者がアプリケーションを開発・実行・管理するためのプラットフォームを提供するサービスです。 特徴: ユーザーはアプリケーションのコードとデータに焦点を当て、プラットフォームがバックエンドインフラストラクチャの管理を担当します。例えば、Google App EngineやHerokuがPaaSの例です。 SaaS (Software as a Service):
+概要: SaaSは、クラウド経由で提供されるアプリケーションソフトウェアを指します。 特徴: ユーザーは、アプリケーションに対して利用料金を支払い、そのアプリケーションを利用することができます。例えば、SalesforceやGoogle WorkspaceがSaaSの例です。 OpenStack 概要: OpenStackは、オープンソースのクラウドコンピューティングプラットフォームであり、仮想マシンやストレージ、ネットワーキングを含むインフラストラクチャの管理を可能にします。 主な機能: Nova: コンピュートサービスで、仮想マシンの管理を行います。 Neutron: ネットワーキングサービスで、仮想ネットワークの管理を行います。 Cinder: ブロックストレージサービスで、永続的なブロックストレージの提供を行います。 Swift: オブジェクトストレージサービスで、大容量の非構造化データの管理を行います。 Horizon: ウェブベースのダッシュボードで、OpenStackリソースの可視化と管理を行います。 Terraform 概要: Terraformは、ハッシュコーポレーションによって開発されたオープンソースのインフラストラクチャのコード化ツールで、クラウドインフラストラクチャのプロビジョニングと管理を自動化します。 主な機能: 宣言的言語: HCL (HashiCorp Configuration Language)を使用して、インフラストラクチャのリソースを定義します。 プロバイダ: AWS、Azure、GCPなどのクラウドプロバイダや、Docker、GitHubなどのサービスに対するプロバイダがあります。 インフラストラクチャの状態管理: マルチクラウド環境でのインフラストラクチャの状態を管理し、変更の適用やリソースの更新を行います。 これらのツールとプラットフォームは、クラウド環境でのインフラストラクチャの管理やアプリケーションのデプロイメントを効率化し、柔軟性を高めるための重要な役割を果たしています。"/>
+<meta name="twitter:site" content="@example"/>
+
+
+
+<meta itemprop="name" content="クラウド管理ツール 用語とユーティリティ">
+<meta itemprop="description" content="IaaS, PaaS, SaaS IaaS (Infrastructure as a Service):
+概要: IaaSは、クラウドプロバイダが物理的なコンピューティングインフラストラクチャ（仮想サーバー、ストレージ、ネットワークなど）を提供するサービスです。 特徴: ユーザーは、自分自身でオペレーティングシステム、アプリケーション、データを管理する責任があります。例えば、AWSのEC2やAzureの仮想マシンがIaaSの例です。 PaaS (Platform as a Service):
+概要: PaaSは、開発者がアプリケーションを開発・実行・管理するためのプラットフォームを提供するサービスです。 特徴: ユーザーはアプリケーションのコードとデータに焦点を当て、プラットフォームがバックエンドインフラストラクチャの管理を担当します。例えば、Google App EngineやHerokuがPaaSの例です。 SaaS (Software as a Service):
+概要: SaaSは、クラウド経由で提供されるアプリケーションソフトウェアを指します。 特徴: ユーザーは、アプリケーションに対して利用料金を支払い、そのアプリケーションを利用することができます。例えば、SalesforceやGoogle WorkspaceがSaaSの例です。 OpenStack 概要: OpenStackは、オープンソースのクラウドコンピューティングプラットフォームであり、仮想マシンやストレージ、ネットワーキングを含むインフラストラクチャの管理を可能にします。 主な機能: Nova: コンピュートサービスで、仮想マシンの管理を行います。 Neutron: ネットワーキングサービスで、仮想ネットワークの管理を行います。 Cinder: ブロックストレージサービスで、永続的なブロックストレージの提供を行います。 Swift: オブジェクトストレージサービスで、大容量の非構造化データの管理を行います。 Horizon: ウェブベースのダッシュボードで、OpenStackリソースの可視化と管理を行います。 Terraform 概要: Terraformは、ハッシュコーポレーションによって開発されたオープンソースのインフラストラクチャのコード化ツールで、クラウドインフラストラクチャのプロビジョニングと管理を自動化します。 主な機能: 宣言的言語: HCL (HashiCorp Configuration Language)を使用して、インフラストラクチャのリソースを定義します。 プロバイダ: AWS、Azure、GCPなどのクラウドプロバイダや、Docker、GitHubなどのサービスに対するプロバイダがあります。 インフラストラクチャの状態管理: マルチクラウド環境でのインフラストラクチャの状態を管理し、変更の適用やリソースの更新を行います。 これらのツールとプラットフォームは、クラウド環境でのインフラストラクチャの管理やアプリケーションのデプロイメントを効率化し、柔軟性を高めるための重要な役割を果たしています。"><meta itemprop="datePublished" content="2024-07-18T19:32:02+09:00" />
+<meta itemprop="dateModified" content="2024-07-18T19:32:02+09:00" />
+<meta itemprop="wordCount" content="61">
+
+<meta itemprop="image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_b5e40613fe5faab87a84a6351c6de1fc.webp"/>
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/it-certs/original.min.css" rel="stylesheet">
+
+  
+
+  
+
+  
+</head>
+
+<body>
+  <header><a class="skip-link" href="#main-content">Skip to main content</a>
+
+<a href="/it-certs/" class="title"><h1>it-certs</h1></a>
+<nav>
+  <a href="/it-certs/">Home</a>
+
+  <a href="/it-certs/lpic3/">LPIC3</a>
+
+
+
+
+
+
+
+
+</nav>
+</header>
+  <main id="main-content">
+
+<h1>クラウド管理ツール 用語とユーティリティ</h1>
+<p class="byline">
+  
+</p>
+
+<content>
+  <h3 id="iaas-paas-saas">IaaS, PaaS, SaaS</h3>
+<ul>
+<li>
+<p><strong>IaaS (Infrastructure as a Service)</strong>:</p>
+<ul>
+<li><strong>概要</strong>: IaaSは、クラウドプロバイダが物理的なコンピューティングインフラストラクチャ（仮想サーバー、ストレージ、ネットワークなど）を提供するサービスです。</li>
+<li><strong>特徴</strong>: ユーザーは、自分自身でオペレーティングシステム、アプリケーション、データを管理する責任があります。例えば、AWSのEC2やAzureの仮想マシンがIaaSの例です。</li>
+</ul>
+</li>
+<li>
+<p><strong>PaaS (Platform as a Service)</strong>:</p>
+<ul>
+<li><strong>概要</strong>: PaaSは、開発者がアプリケーションを開発・実行・管理するためのプラットフォームを提供するサービスです。</li>
+<li><strong>特徴</strong>: ユーザーはアプリケーションのコードとデータに焦点を当て、プラットフォームがバックエンドインフラストラクチャの管理を担当します。例えば、Google App EngineやHerokuがPaaSの例です。</li>
+</ul>
+</li>
+<li>
+<p><strong>SaaS (Software as a Service)</strong>:</p>
+<ul>
+<li><strong>概要</strong>: SaaSは、クラウド経由で提供されるアプリケーションソフトウェアを指します。</li>
+<li><strong>特徴</strong>: ユーザーは、アプリケーションに対して利用料金を支払い、そのアプリケーションを利用することができます。例えば、SalesforceやGoogle WorkspaceがSaaSの例です。</li>
+</ul>
+</li>
+</ul>
+<h3 id="openstack">OpenStack</h3>
+<ul>
+<li><strong>概要</strong>: <strong>OpenStack</strong>は、オープンソースのクラウドコンピューティングプラットフォームであり、仮想マシンやストレージ、ネットワーキングを含むインフラストラクチャの管理を可能にします。</li>
+<li><strong>主な機能</strong>:
+<ul>
+<li><strong>Nova</strong>: コンピュートサービスで、仮想マシンの管理を行います。</li>
+<li><strong>Neutron</strong>: ネットワーキングサービスで、仮想ネットワークの管理を行います。</li>
+<li><strong>Cinder</strong>: ブロックストレージサービスで、永続的なブロックストレージの提供を行います。</li>
+<li><strong>Swift</strong>: オブジェクトストレージサービスで、大容量の非構造化データの管理を行います。</li>
+<li><strong>Horizon</strong>: ウェブベースのダッシュボードで、OpenStackリソースの可視化と管理を行います。</li>
+</ul>
+</li>
+</ul>
+<h3 id="terraform">Terraform</h3>
+<ul>
+<li><strong>概要</strong>: <strong>Terraform</strong>は、ハッシュコーポレーションによって開発されたオープンソースのインフラストラクチャのコード化ツールで、クラウドインフラストラクチャのプロビジョニングと管理を自動化します。</li>
+<li><strong>主な機能</strong>:
+<ul>
+<li><strong>宣言的言語</strong>: HCL (HashiCorp Configuration Language)を使用して、インフラストラクチャのリソースを定義します。</li>
+<li><strong>プロバイダ</strong>: AWS、Azure、GCPなどのクラウドプロバイダや、Docker、GitHubなどのサービスに対するプロバイダがあります。</li>
+<li><strong>インフラストラクチャの状態管理</strong>: マルチクラウド環境でのインフラストラクチャの状態を管理し、変更の適用やリソースの更新を行います。</li>
+</ul>
+</li>
+</ul>
+<p>これらのツールとプラットフォームは、クラウド環境でのインフラストラクチャの管理やアプリケーションのデプロイメントを効率化し、柔軟性を高めるための重要な役割を果たしています。</p>
+
+</content>
+<p>
+  
+</p>
+
+
+
+
+  </main>
+  <footer><small>
+  croissant | 
+</small></footer>
+
+    
+</body>
+
+</html>

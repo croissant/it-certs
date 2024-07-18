@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://croissant.github.io/it-certs/images/favicon.png" />
+<title>Libvirt Virtual Machine Management 主な知識分野 | it-certs</title>
+<meta name="title" content="Libvirt Virtual Machine Management 主な知識分野" />
+<meta name="description" content="libvirtの構造を理解する libvirtは、ハイパーバイザー（仮想化ソフトウェア）を抽象化して統一されたAPIを提供するためのオープンソースライブラリです。これにより、異なる仮想化技術（Xen、QEMU/KVM、VMware、Hyper-Vなど）を一貫した方法で管理できます。
+構造 libvirtdデーモン: 中央の管理デーモン。仮想化ホスト上で動作し、クライアントからのAPIリクエストを受け付け、ハイパーバイザーとの通信を担当します。 APIとライブラリ: C言語で書かれたAPIと、それに基づくバインディング（Python、Perl、Javaなど）。アプリケーションはこれを使って仮想化機能を操作します。 仮想化ドライバ: 各ハイパーバイザーの特定機能にアクセスするためのドライバ。Xen、QEMU/KVMなどの異なる仮想化技術に対応。 libvirtコネクションとノードを管理する libvirtコネクション: virshやその他のlibvirtクライアントを通じて仮想化ホストに接続するためのインターフェース。
+コネクションの作成 virsh connect qemu:///system # QEMU/KVMシステムインスタンスに接続 virsh connect xen:/// # Xenシステムに接続 ノードの管理 ノード情報の表示: virsh nodeinfo # ノードのハードウェア情報を表示 ホストの停止: virsh shutdown &lt;nodename&gt; # 指定したノードをシャットダウン スナップショットを含む、QEMUとXenドメインの作成と管理 ドメインの作成 virsh create /path/to/domain.xml # XML設定ファイルを使って新しいドメインを作成 ドメインの管理 開始: virsh start &lt;domain&gt; # ドメインを起動 停止: virsh shutdown &lt;domain&gt; # ドメインをシャットダウン 再起動: virsh reboot &lt;domain&gt; # ドメインを再起動 スナップショットの管理 作成: virsh snapshot-create-as &lt;domain&gt; &lt;snapshot_name&gt; リスト表示: virsh snapshot-list &lt;domain&gt; 復元: virsh snapshot-revert &lt;domain&gt; &lt;snapshot_name&gt; ドメインのリソース消費の管理と解析 リソース使用状況の表示: virsh domstats &lt;domain&gt; # ドメインのリソース使用状況を表示 CPUおよびメモリの割り当て: virsh setvcpus &lt;domain&gt; &lt;number_of_cpus&gt; --config # CPU数の設定 virsh setmem &lt;domain&gt; &lt;memory_amount&gt; --config # メモリ量の設定 ストレージプールとボリュームの作成と管理 ストレージプールの作成 virsh pool-create /path/to/pool." />
+<meta name="author" content="" />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Libvirt Virtual Machine Management 主な知識分野" />
+<meta property="og:description" content="libvirtの構造を理解する libvirtは、ハイパーバイザー（仮想化ソフトウェア）を抽象化して統一されたAPIを提供するためのオープンソースライブラリです。これにより、異なる仮想化技術（Xen、QEMU/KVM、VMware、Hyper-Vなど）を一貫した方法で管理できます。
+構造 libvirtdデーモン: 中央の管理デーモン。仮想化ホスト上で動作し、クライアントからのAPIリクエストを受け付け、ハイパーバイザーとの通信を担当します。 APIとライブラリ: C言語で書かれたAPIと、それに基づくバインディング（Python、Perl、Javaなど）。アプリケーションはこれを使って仮想化機能を操作します。 仮想化ドライバ: 各ハイパーバイザーの特定機能にアクセスするためのドライバ。Xen、QEMU/KVMなどの異なる仮想化技術に対応。 libvirtコネクションとノードを管理する libvirtコネクション: virshやその他のlibvirtクライアントを通じて仮想化ホストに接続するためのインターフェース。
+コネクションの作成 virsh connect qemu:///system # QEMU/KVMシステムインスタンスに接続 virsh connect xen:/// # Xenシステムに接続 ノードの管理 ノード情報の表示: virsh nodeinfo # ノードのハードウェア情報を表示 ホストの停止: virsh shutdown &lt;nodename&gt; # 指定したノードをシャットダウン スナップショットを含む、QEMUとXenドメインの作成と管理 ドメインの作成 virsh create /path/to/domain.xml # XML設定ファイルを使って新しいドメインを作成 ドメインの管理 開始: virsh start &lt;domain&gt; # ドメインを起動 停止: virsh shutdown &lt;domain&gt; # ドメインをシャットダウン 再起動: virsh reboot &lt;domain&gt; # ドメインを再起動 スナップショットの管理 作成: virsh snapshot-create-as &lt;domain&gt; &lt;snapshot_name&gt; リスト表示: virsh snapshot-list &lt;domain&gt; 復元: virsh snapshot-revert &lt;domain&gt; &lt;snapshot_name&gt; ドメインのリソース消費の管理と解析 リソース使用状況の表示: virsh domstats &lt;domain&gt; # ドメインのリソース使用状況を表示 CPUおよびメモリの割り当て: virsh setvcpus &lt;domain&gt; &lt;number_of_cpus&gt; --config # CPU数の設定 virsh setmem &lt;domain&gt; &lt;memory_amount&gt; --config # メモリ量の設定 ストレージプールとボリュームの作成と管理 ストレージプールの作成 virsh pool-create /path/to/pool." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://croissant.github.io/it-certs/lpic3/7/" />
+
+<meta property="og:image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_1c2b1d43cb8bd71700d77e127123d293.webp"/><meta property="article:section" content="lpic3" />
+<meta property="article:published_time" content="2024-07-18T18:17:55+09:00" />
+<meta property="article:modified_time" content="2024-07-18T18:17:55+09:00" /><meta property="og:site_name" content="Bear Cub" />
+<meta property="fb:admins" content="0000000000" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_1c2b1d43cb8bd71700d77e127123d293.webp"/>
+<meta name="twitter:title" content="Libvirt Virtual Machine Management 主な知識分野"/>
+<meta name="twitter:description" content="libvirtの構造を理解する libvirtは、ハイパーバイザー（仮想化ソフトウェア）を抽象化して統一されたAPIを提供するためのオープンソースライブラリです。これにより、異なる仮想化技術（Xen、QEMU/KVM、VMware、Hyper-Vなど）を一貫した方法で管理できます。
+構造 libvirtdデーモン: 中央の管理デーモン。仮想化ホスト上で動作し、クライアントからのAPIリクエストを受け付け、ハイパーバイザーとの通信を担当します。 APIとライブラリ: C言語で書かれたAPIと、それに基づくバインディング（Python、Perl、Javaなど）。アプリケーションはこれを使って仮想化機能を操作します。 仮想化ドライバ: 各ハイパーバイザーの特定機能にアクセスするためのドライバ。Xen、QEMU/KVMなどの異なる仮想化技術に対応。 libvirtコネクションとノードを管理する libvirtコネクション: virshやその他のlibvirtクライアントを通じて仮想化ホストに接続するためのインターフェース。
+コネクションの作成 virsh connect qemu:///system # QEMU/KVMシステムインスタンスに接続 virsh connect xen:/// # Xenシステムに接続 ノードの管理 ノード情報の表示: virsh nodeinfo # ノードのハードウェア情報を表示 ホストの停止: virsh shutdown &lt;nodename&gt; # 指定したノードをシャットダウン スナップショットを含む、QEMUとXenドメインの作成と管理 ドメインの作成 virsh create /path/to/domain.xml # XML設定ファイルを使って新しいドメインを作成 ドメインの管理 開始: virsh start &lt;domain&gt; # ドメインを起動 停止: virsh shutdown &lt;domain&gt; # ドメインをシャットダウン 再起動: virsh reboot &lt;domain&gt; # ドメインを再起動 スナップショットの管理 作成: virsh snapshot-create-as &lt;domain&gt; &lt;snapshot_name&gt; リスト表示: virsh snapshot-list &lt;domain&gt; 復元: virsh snapshot-revert &lt;domain&gt; &lt;snapshot_name&gt; ドメインのリソース消費の管理と解析 リソース使用状況の表示: virsh domstats &lt;domain&gt; # ドメインのリソース使用状況を表示 CPUおよびメモリの割り当て: virsh setvcpus &lt;domain&gt; &lt;number_of_cpus&gt; --config # CPU数の設定 virsh setmem &lt;domain&gt; &lt;memory_amount&gt; --config # メモリ量の設定 ストレージプールとボリュームの作成と管理 ストレージプールの作成 virsh pool-create /path/to/pool."/>
+<meta name="twitter:site" content="@example"/>
+
+
+
+<meta itemprop="name" content="Libvirt Virtual Machine Management 主な知識分野">
+<meta itemprop="description" content="libvirtの構造を理解する libvirtは、ハイパーバイザー（仮想化ソフトウェア）を抽象化して統一されたAPIを提供するためのオープンソースライブラリです。これにより、異なる仮想化技術（Xen、QEMU/KVM、VMware、Hyper-Vなど）を一貫した方法で管理できます。
+構造 libvirtdデーモン: 中央の管理デーモン。仮想化ホスト上で動作し、クライアントからのAPIリクエストを受け付け、ハイパーバイザーとの通信を担当します。 APIとライブラリ: C言語で書かれたAPIと、それに基づくバインディング（Python、Perl、Javaなど）。アプリケーションはこれを使って仮想化機能を操作します。 仮想化ドライバ: 各ハイパーバイザーの特定機能にアクセスするためのドライバ。Xen、QEMU/KVMなどの異なる仮想化技術に対応。 libvirtコネクションとノードを管理する libvirtコネクション: virshやその他のlibvirtクライアントを通じて仮想化ホストに接続するためのインターフェース。
+コネクションの作成 virsh connect qemu:///system # QEMU/KVMシステムインスタンスに接続 virsh connect xen:/// # Xenシステムに接続 ノードの管理 ノード情報の表示: virsh nodeinfo # ノードのハードウェア情報を表示 ホストの停止: virsh shutdown &lt;nodename&gt; # 指定したノードをシャットダウン スナップショットを含む、QEMUとXenドメインの作成と管理 ドメインの作成 virsh create /path/to/domain.xml # XML設定ファイルを使って新しいドメインを作成 ドメインの管理 開始: virsh start &lt;domain&gt; # ドメインを起動 停止: virsh shutdown &lt;domain&gt; # ドメインをシャットダウン 再起動: virsh reboot &lt;domain&gt; # ドメインを再起動 スナップショットの管理 作成: virsh snapshot-create-as &lt;domain&gt; &lt;snapshot_name&gt; リスト表示: virsh snapshot-list &lt;domain&gt; 復元: virsh snapshot-revert &lt;domain&gt; &lt;snapshot_name&gt; ドメインのリソース消費の管理と解析 リソース使用状況の表示: virsh domstats &lt;domain&gt; # ドメインのリソース使用状況を表示 CPUおよびメモリの割り当て: virsh setvcpus &lt;domain&gt; &lt;number_of_cpus&gt; --config # CPU数の設定 virsh setmem &lt;domain&gt; &lt;memory_amount&gt; --config # メモリ量の設定 ストレージプールとボリュームの作成と管理 ストレージプールの作成 virsh pool-create /path/to/pool."><meta itemprop="datePublished" content="2024-07-18T18:17:55+09:00" />
+<meta itemprop="dateModified" content="2024-07-18T18:17:55+09:00" />
+<meta itemprop="wordCount" content="200">
+
+<meta itemprop="image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_1c2b1d43cb8bd71700d77e127123d293.webp"/>
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/it-certs/original.min.css" rel="stylesheet">
+
+  
+    
+    <link href="/it-certs/syntax.min.css" rel="stylesheet">
+  
+
+  
+
+  
+</head>
+
+<body>
+  <header><a class="skip-link" href="#main-content">Skip to main content</a>
+
+<a href="/it-certs/" class="title"><h1>it-certs</h1></a>
+<nav>
+  <a href="/it-certs/">Home</a>
+
+  <a href="/it-certs/lpic3/">LPIC3</a>
+
+
+
+
+
+
+
+
+</nav>
+</header>
+  <main id="main-content">
+
+<h1>Libvirt Virtual Machine Management 主な知識分野</h1>
+<p class="byline">
+  
+</p>
+
+<content>
+  <h3 id="libvirtの構造を理解する">libvirtの構造を理解する</h3>
+<p><strong>libvirt</strong>は、ハイパーバイザー（仮想化ソフトウェア）を抽象化して統一されたAPIを提供するためのオープンソースライブラリです。これにより、異なる仮想化技術（Xen、QEMU/KVM、VMware、Hyper-Vなど）を一貫した方法で管理できます。</p>
+<h4 id="構造">構造</h4>
+<ul>
+<li><strong>libvirtdデーモン</strong>: 中央の管理デーモン。仮想化ホスト上で動作し、クライアントからのAPIリクエストを受け付け、ハイパーバイザーとの通信を担当します。</li>
+<li><strong>APIとライブラリ</strong>: C言語で書かれたAPIと、それに基づくバインディング（Python、Perl、Javaなど）。アプリケーションはこれを使って仮想化機能を操作します。</li>
+<li><strong>仮想化ドライバ</strong>: 各ハイパーバイザーの特定機能にアクセスするためのドライバ。Xen、QEMU/KVMなどの異なる仮想化技術に対応。</li>
+</ul>
+<h3 id="libvirtコネクションとノードを管理する">libvirtコネクションとノードを管理する</h3>
+<p><strong>libvirtコネクション</strong>: <code>virsh</code>やその他のlibvirtクライアントを通じて仮想化ホストに接続するためのインターフェース。</p>
+<h4 id="コネクションの作成">コネクションの作成</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh connect qemu:///system  <span class="c1"># QEMU/KVMシステムインスタンスに接続</span>
+</span></span><span class="line"><span class="cl">virsh connect xen:///         <span class="c1"># Xenシステムに接続</span></span></span></code></pre></div>
+<h4 id="ノードの管理">ノードの管理</h4>
+<ul>
+<li><strong>ノード情報の表示</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh nodeinfo  <span class="c1"># ノードのハードウェア情報を表示</span></span></span></code></pre></div>
+<ul>
+<li><strong>ホストの停止</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh shutdown &lt;nodename&gt;  <span class="c1"># 指定したノードをシャットダウン</span></span></span></code></pre></div>
+<h3 id="スナップショットを含むqemuとxenドメインの作成と管理">スナップショットを含む、QEMUとXenドメインの作成と管理</h3>
+<h4 id="ドメインの作成">ドメインの作成</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh create /path/to/domain.xml  <span class="c1"># XML設定ファイルを使って新しいドメインを作成</span></span></span></code></pre></div>
+<h4 id="ドメインの管理">ドメインの管理</h4>
+<ul>
+<li><strong>開始</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh start &lt;domain&gt;  <span class="c1"># ドメインを起動</span></span></span></code></pre></div>
+<ul>
+<li><strong>停止</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh shutdown &lt;domain&gt;  <span class="c1"># ドメインをシャットダウン</span></span></span></code></pre></div>
+<ul>
+<li><strong>再起動</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh reboot &lt;domain&gt;  <span class="c1"># ドメインを再起動</span></span></span></code></pre></div>
+<h4 id="スナップショットの管理">スナップショットの管理</h4>
+<ul>
+<li><strong>作成</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh snapshot-create-as &lt;domain&gt; &lt;snapshot_name&gt;</span></span></code></pre></div>
+<ul>
+<li><strong>リスト表示</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh snapshot-list &lt;domain&gt;</span></span></code></pre></div>
+<ul>
+<li><strong>復元</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh snapshot-revert &lt;domain&gt; &lt;snapshot_name&gt;</span></span></code></pre></div>
+<h3 id="ドメインのリソース消費の管理と解析">ドメインのリソース消費の管理と解析</h3>
+<ul>
+<li><strong>リソース使用状況の表示</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh domstats &lt;domain&gt;  <span class="c1"># ドメインのリソース使用状況を表示</span></span></span></code></pre></div>
+<ul>
+<li><strong>CPUおよびメモリの割り当て</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh setvcpus &lt;domain&gt; &lt;number_of_cpus&gt; --config  <span class="c1"># CPU数の設定</span>
+</span></span><span class="line"><span class="cl">virsh setmem &lt;domain&gt; &lt;memory_amount&gt; --config     <span class="c1"># メモリ量の設定</span></span></span></code></pre></div>
+<h3 id="ストレージプールとボリュームの作成と管理">ストレージプールとボリュームの作成と管理</h3>
+<h4 id="ストレージプールの作成">ストレージプールの作成</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh pool-create /path/to/pool.xml  <span class="c1"># ストレージプールを作成</span></span></span></code></pre></div>
+<h4 id="ボリュームの作成">ボリュームの作成</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh vol-create-as &lt;pool&gt; &lt;volume_name&gt; &lt;size&gt;  <span class="c1"># 新しいボリュームを作成</span></span></span></code></pre></div>
+<h3 id="仮想ネットワークの作成と管理">仮想ネットワークの作成と管理</h3>
+<h4 id="仮想ネットワークの作成">仮想ネットワークの作成</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh net-create /path/to/network.xml  <span class="c1"># 仮想ネットワークを作成</span></span></span></code></pre></div>
+<h4 id="仮想ネットワークの管理">仮想ネットワークの管理</h4>
+<ul>
+<li><strong>開始</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh net-start &lt;network&gt;</span></span></code></pre></div>
+<ul>
+<li><strong>停止</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh net-destroy &lt;network&gt;</span></span></code></pre></div>
+<h3 id="ノード間のドメインのマイグレーション">ノード間のドメインのマイグレーション</h3>
+<h4 id="ドメインのマイグレーション">ドメインのマイグレーション</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">virsh migrate --live &lt;domain&gt; qemu+ssh://&lt;destination_host&gt;/system</span></span></code></pre></div>
+<ul>
+<li><strong>オプション</strong>:
+<ul>
+<li><code>--live</code>: ライブマイグレーションを実行</li>
+</ul>
+</li>
+</ul>
+<h3 id="libvirtがxenqemuをどのように操作するか理解する">libvirtがXen,QEMUをどのように操作するか理解する</h3>
+<ul>
+<li><strong>Xen</strong>: libvirtは<code>libxenlight</code>や<code>xend</code>を通じてXenハイパーバイザーと通信します。Xenドライバが提供するAPIを使用して、ドメインの管理やリソースの割り当てを行います。</li>
+<li><strong>QEMU/KVM</strong>: libvirtはQEMUドライバを通じてQEMUプロセスを管理します。QEMUプロセスに対してコマンドを送り、仮想マシンの起動や停止、スナップショットの作成などを行います。</li>
+</ul>
+<h3 id="libvirtがdnsmasqやradvdなどのネットワークサービスをどのように操作するか理解する">libvirtがdnsmasqやradvdなどのネットワークサービスをどのように操作するか理解する</h3>
+<ul>
+<li><strong>dnsmasq</strong>: libvirtは仮想ネットワークのDHCPおよびDNSサービスを提供するために<code>dnsmasq</code>を使用します。仮想ネットワークが作成されると、libvirtは自動的にdnsmasqプロセスを起動し、適切な設定を行います。</li>
+<li><strong>radvd</strong>: IPv6ネットワークのルーターアドバタイズメントを提供するために<code>radvd</code>を使用します。libvirtはIPv6が有効な仮想ネットワークに対してradvdを設定し、自動的に管理します。</li>
+</ul>
+<h3 id="libvirt-xml設定ファイルを理解する">libvirt XML設定ファイルを理解する</h3>
+<p>libvirtの設定はXML形式のファイルで管理されます。これらのファイルには仮想マシン、ストレージ、ネットワークなどの詳細設定が含まれています。</p>
+<h4 id="例-仮想マシンのxml設定ファイル">例: 仮想マシンのXML設定ファイル</h4>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;domain</span> <span class="na">type=</span><span class="s">&#39;kvm&#39;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;name&gt;</span>example<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;memory</span> <span class="na">unit=</span><span class="s">&#39;KiB&#39;</span><span class="nt">&gt;</span>1048576<span class="nt">&lt;/memory&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;vcpu</span> <span class="na">placement=</span><span class="s">&#39;static&#39;</span><span class="nt">&gt;</span>1<span class="nt">&lt;/vcpu&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;os&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;type</span> <span class="na">arch=</span><span class="s">&#39;x86_64&#39;</span> <span class="na">machine=</span><span class="s">&#39;pc-i440fx-2.9&#39;</span><span class="nt">&gt;</span>hvm<span class="nt">&lt;/type&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;boot</span> <span class="na">dev=</span><span class="s">&#39;hd&#39;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/os&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;devices&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;disk</span> <span class="na">type=</span><span class="s">&#39;file&#39;</span> <span class="na">device=</span><span class="s">&#39;disk&#39;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;driver</span> <span class="na">name=</span><span class="s">&#39;qemu&#39;</span> <span class="na">type=</span><span class="s">&#39;qcow2&#39;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;source</span> <span class="na">file=</span><span class="s">&#39;/var/lib/libvirt/images/example.qcow2&#39;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;target</span> <span class="na">dev=</span><span class="s">&#39;vda&#39;</span> <span class="na">bus=</span><span class="s">&#39;virtio&#39;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/disk&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;interface</span> <span class="na">type=</span><span class="s">&#39;network&#39;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;source</span> <span class="na">network=</span><span class="s">&#39;default&#39;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/interface&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;/devices&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/domain&gt;</span></span></span></code></pre></div>
+<h3 id="virtlogdとvirtlockdの知識">virtlogdとvirtlockdの知識</h3>
+<ul>
+<li>
+<p><strong>virtlogd</strong>:</p>
+<ul>
+<li><strong>概要</strong>: 仮想マシンのログを管理するデーモン。仮想マシンの標準出力とエラー出力を集約し、ログファイルに保存します。</li>
+<li><strong>役割</strong>: ログの永続化と一元管理を提供し、仮想マシンのトラブルシューティングを支援します。</li>
+</ul>
+</li>
+<li>
+<p><strong>virtlockd</strong>:</p>
+<ul>
+<li><strong>概要</strong>: 仮想マシンのリソースロックを管理するデーモン。複数のlibvirtインスタンス間でリソースの競合を防ぎます。</li>
+<li><strong>役割</strong>: 仮想マシンのディスクイメージやその他のリソースに対する排他制御を提供し、データの整合性を保ちます。</li>
+</ul>
+</li>
+</ul>
+<p>これらの知識を理解することで、libvirtを利用した仮想化環境の構築、管理、およびトラブルシューティングが効果的に行えます。</p>
+
+</content>
+<p>
+  
+</p>
+
+
+
+
+  </main>
+  <footer><small>
+  croissant | 
+</small></footer>
+
+    
+</body>
+
+</html>

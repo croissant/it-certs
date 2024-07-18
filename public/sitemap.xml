@@ -1,16 +1,90 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <sitemap>
-    <loc>http://localhost:1313/en/sitemap.xml</loc>
-    
-      <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>http://localhost:1313/pt/sitemap.xml</loc>
-    
-  </sitemap>
-  
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://croissant.github.io/it-certs/</loc>
+    <lastmod>2024-07-18T19:39:04+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/</loc>
+    <lastmod>2024-07-18T19:39:04+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/25/</loc>
+    <lastmod>2024-07-18T19:39:04+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/24/</loc>
+    <lastmod>2024-07-18T19:39:01+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/23/</loc>
+    <lastmod>2024-07-18T19:36:31+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/22/</loc>
+    <lastmod>2024-07-18T19:36:29+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/21/</loc>
+    <lastmod>2024-07-18T19:33:51+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/20/</loc>
+    <lastmod>2024-07-18T19:33:47+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/19/</loc>
+    <lastmod>2024-07-18T19:32:02+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/18/</loc>
+    <lastmod>2024-07-18T19:29:22+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/17/</loc>
+    <lastmod>2024-07-18T19:29:19+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/16/</loc>
+    <lastmod>2024-07-18T19:27:06+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/15/</loc>
+    <lastmod>2024-07-18T19:27:04+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/14/</loc>
+    <lastmod>2024-07-18T19:23:57+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/13/</loc>
+    <lastmod>2024-07-18T19:23:53+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/12/</loc>
+    <lastmod>2024-07-18T19:18:01+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/11/</loc>
+    <lastmod>2024-07-18T19:17:57+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/10/</loc>
+    <lastmod>2024-07-18T18:24:23+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/9/</loc>
+    <lastmod>2024-07-18T18:24:21+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/8/</loc>
+    <lastmod>2024-07-18T18:17:58+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/7/</loc>
+    <lastmod>2024-07-18T18:17:55+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/5/</loc>
+    <lastmod>2024-07-18T18:10:43+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/6/</loc>
+    <lastmod>2024-07-18T18:10:43+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/4/</loc>
+    <lastmod>2024-07-18T17:58:23+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/3/</loc>
+    <lastmod>2024-07-18T17:56:55+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/2/</loc>
+    <lastmod>2024-07-18T15:55:00+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/lpic3/1/</loc>
+    <lastmod>2024-07-18T15:06:54+09:00</lastmod>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/categories/</loc>
+  </url><url>
+    <loc>https://croissant.github.io/it-certs/tags/</loc>
+  </url>
+</urlset>

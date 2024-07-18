@@ -1,11 +1,20 @@
 # Basic config
-baseURL = "https://example.com"
+baseURL = "https://croissant.github.io/it-certs"
 theme = "hugo-bearcub"
-copyright = "John Doe (CC BY 4.0)"
-defaultContentLanguage = "en"
+copyright = "croissant"
+#defaultContentLanguage = "ja"
 
 # Generate a nice robots.txt for SEO
 enableRobotsTXT = true
+
+title = "it-certs"
+contentDir = "content"
+
+[menu]
+  [[menu.main]]
+    name = 'LPIC3'
+    pageRef = '/lpic3'
+    weight = 10
 
 # Setup syntax highlighting without inline styles. For more information about
 # why you'd want to avoid inline styles, see
@@ -21,25 +30,10 @@ enableRobotsTXT = true
 
 # Multilingual mode config. More for information about how to setup translation,
 # see https://gohugo.io/content-management/multilingual/
-[languages]
-  [languages.en]
-    title = "Bear Cub"
-    languageName = "en-US 🇺🇸"
-    LanguageCode = "en-US"
-    contentDir = "content"
-    [languages.en.params]
-      madeWith = "Made with [Bear Cub](https://github.com/clente/hugo-bearcub)"
-  [languages.pt]
-    title = "Bear Cub"
-    languageName = "pt-BR 🇧🇷"
-    LanguageCode = "pt-BR"
-    contentDir = "content.pt"
-    [languages.pt.params]
-      madeWith = "Feito com [Bear Cub](https://github.com/clente/hugo-bearcub)"
 
 [params]
   # The description of your website
-  description = "Bear Cub Demo"
+  description = "IT Certifications"
 
   # The path to your favicon
   favicon = "images/favicon.png"
@@ -85,5 +79,4 @@ enableRobotsTXT = true
   # email is also added to the footer of each post. You can hide the "reply to"
   # link by using a `hideReply` param in front matter.
   [params.author]
-    name = "John Doe" # Your name as shown in the RSS feed metadata
-    email = "me@example.com" # Added to the footer so readers can reply to posts
+    name = "croissant" # Your name as shown in the RSS feed metadata

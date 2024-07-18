@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://croissant.github.io/it-certs/images/favicon.png" />
+<title>QEMU 主な知識分野 | it-certs</title>
+<meta name="title" content="QEMU 主な知識分野" />
+<meta name="description" content="KVMとネットワークとストレージを含む、QEMUの構造を理解する QEMU（Quick Emulator）は、オープンソースのホスト型ハイパーバイザーで、完全仮想化および準仮想化の機能を提供します。QEMUは単独で仮想化を実現できますが、一般的にはKVM（Kernel-based Virtual Machine）と組み合わせて使用されます。
+KVM 概要: KVMはLinuxカーネルに統合された仮想化技術で、ハードウェアの仮想化支援機能（Intel VT-xやAMD-V）を利用して効率的な仮想化を提供します。 役割: KVMはホストカーネルに仮想化拡張を追加し、QEMUが仮想マシンを実行するための基盤を提供します。QEMUはKVMを利用して仮想マシンのパフォーマンスを向上させます。 QEMUのネットワーク ユーザーモードネットワーキング: ホストのネットワークスタックを利用する簡単なネットワークオプション。設定が容易ですが、パフォーマンスが制限されることがあります。 ブリッジネットワーキング: 仮想マシンがホストの物理ネットワークに直接接続されるため、仮想マシンはホストのネットワークと同じネットワークに参加します。 TAPインターフェース: 仮想ネットワークインターフェースを使用して、ホストと仮想マシン間での通信を実現します。仮想ネットワークブリッジと併用されることが多いです。 QEMUのストレージ 仮想ディスクイメージ: 仮想マシンのストレージとして使用されるディスクイメージファイル（QCOW2、RAWなど）。 パススルー: ホストの物理ディスクやパーティションを直接仮想マシンに割り当てる方法。 ネットワークストレージ: iSCSI、NFS、Cephなどのネットワークベースのストレージを利用可能。 QEMUのインスタンスをコマンドラインで起動する QEMUを使用して仮想マシンを起動するための基本的なコマンド例を示します。
+qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -cdrom /path/to/installer.iso -boot d qemu-system-x86_64: QEMUのエミュレータ実行ファイル -enable-kvm: KVMアクセラレーションを有効にする -m 2048: 仮想マシンに割り当てるメモリ量（MB単位） -hda /path/to/disk.img: 仮想ディスクイメージを指定 -cdrom /path/to/installer.iso: インストールメディアとしてISOイメージを指定 -boot d: CD-ROMからブート QEMUモニタを利用してスナップショットを管理する QEMUモニタは、QEMU実行中に仮想マシンを管理するためのインターフェースです。スナップショットの管理も含まれます。
+モニタにアクセスする: QEMU起動時に-monitor stdioオプションを追加すると、QEMUモニタにアクセスできます。 qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -monitor stdio スナップショットの作成: (qemu) savevm snapshot_name スナップショットの復元: (qemu) loadvm snapshot_name スナップショットの一覧表示: (qemu) info snapshots QEMU Guest AgentとVirtIOデバイスドライバをインストールする QEMU Guest Agent QEMU Guest Agentは、ホストとゲストOS間の通信を改善し、効率的な管理を可能にするためのデーモンです。" />
+<meta name="author" content="" />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="QEMU 主な知識分野" />
+<meta property="og:description" content="KVMとネットワークとストレージを含む、QEMUの構造を理解する QEMU（Quick Emulator）は、オープンソースのホスト型ハイパーバイザーで、完全仮想化および準仮想化の機能を提供します。QEMUは単独で仮想化を実現できますが、一般的にはKVM（Kernel-based Virtual Machine）と組み合わせて使用されます。
+KVM 概要: KVMはLinuxカーネルに統合された仮想化技術で、ハードウェアの仮想化支援機能（Intel VT-xやAMD-V）を利用して効率的な仮想化を提供します。 役割: KVMはホストカーネルに仮想化拡張を追加し、QEMUが仮想マシンを実行するための基盤を提供します。QEMUはKVMを利用して仮想マシンのパフォーマンスを向上させます。 QEMUのネットワーク ユーザーモードネットワーキング: ホストのネットワークスタックを利用する簡単なネットワークオプション。設定が容易ですが、パフォーマンスが制限されることがあります。 ブリッジネットワーキング: 仮想マシンがホストの物理ネットワークに直接接続されるため、仮想マシンはホストのネットワークと同じネットワークに参加します。 TAPインターフェース: 仮想ネットワークインターフェースを使用して、ホストと仮想マシン間での通信を実現します。仮想ネットワークブリッジと併用されることが多いです。 QEMUのストレージ 仮想ディスクイメージ: 仮想マシンのストレージとして使用されるディスクイメージファイル（QCOW2、RAWなど）。 パススルー: ホストの物理ディスクやパーティションを直接仮想マシンに割り当てる方法。 ネットワークストレージ: iSCSI、NFS、Cephなどのネットワークベースのストレージを利用可能。 QEMUのインスタンスをコマンドラインで起動する QEMUを使用して仮想マシンを起動するための基本的なコマンド例を示します。
+qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -cdrom /path/to/installer.iso -boot d qemu-system-x86_64: QEMUのエミュレータ実行ファイル -enable-kvm: KVMアクセラレーションを有効にする -m 2048: 仮想マシンに割り当てるメモリ量（MB単位） -hda /path/to/disk.img: 仮想ディスクイメージを指定 -cdrom /path/to/installer.iso: インストールメディアとしてISOイメージを指定 -boot d: CD-ROMからブート QEMUモニタを利用してスナップショットを管理する QEMUモニタは、QEMU実行中に仮想マシンを管理するためのインターフェースです。スナップショットの管理も含まれます。
+モニタにアクセスする: QEMU起動時に-monitor stdioオプションを追加すると、QEMUモニタにアクセスできます。 qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -monitor stdio スナップショットの作成: (qemu) savevm snapshot_name スナップショットの復元: (qemu) loadvm snapshot_name スナップショットの一覧表示: (qemu) info snapshots QEMU Guest AgentとVirtIOデバイスドライバをインストールする QEMU Guest Agent QEMU Guest Agentは、ホストとゲストOS間の通信を改善し、効率的な管理を可能にするためのデーモンです。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://croissant.github.io/it-certs/lpic3/5/" />
+
+<meta property="og:image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_ff596f01b4bcccadcda7253f8528281b.webp"/><meta property="article:section" content="lpic3" />
+<meta property="article:published_time" content="2024-07-18T18:10:43+09:00" />
+<meta property="article:modified_time" content="2024-07-18T18:10:43+09:00" /><meta property="og:site_name" content="Bear Cub" />
+<meta property="fb:admins" content="0000000000" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_ff596f01b4bcccadcda7253f8528281b.webp"/>
+<meta name="twitter:title" content="QEMU 主な知識分野"/>
+<meta name="twitter:description" content="KVMとネットワークとストレージを含む、QEMUの構造を理解する QEMU（Quick Emulator）は、オープンソースのホスト型ハイパーバイザーで、完全仮想化および準仮想化の機能を提供します。QEMUは単独で仮想化を実現できますが、一般的にはKVM（Kernel-based Virtual Machine）と組み合わせて使用されます。
+KVM 概要: KVMはLinuxカーネルに統合された仮想化技術で、ハードウェアの仮想化支援機能（Intel VT-xやAMD-V）を利用して効率的な仮想化を提供します。 役割: KVMはホストカーネルに仮想化拡張を追加し、QEMUが仮想マシンを実行するための基盤を提供します。QEMUはKVMを利用して仮想マシンのパフォーマンスを向上させます。 QEMUのネットワーク ユーザーモードネットワーキング: ホストのネットワークスタックを利用する簡単なネットワークオプション。設定が容易ですが、パフォーマンスが制限されることがあります。 ブリッジネットワーキング: 仮想マシンがホストの物理ネットワークに直接接続されるため、仮想マシンはホストのネットワークと同じネットワークに参加します。 TAPインターフェース: 仮想ネットワークインターフェースを使用して、ホストと仮想マシン間での通信を実現します。仮想ネットワークブリッジと併用されることが多いです。 QEMUのストレージ 仮想ディスクイメージ: 仮想マシンのストレージとして使用されるディスクイメージファイル（QCOW2、RAWなど）。 パススルー: ホストの物理ディスクやパーティションを直接仮想マシンに割り当てる方法。 ネットワークストレージ: iSCSI、NFS、Cephなどのネットワークベースのストレージを利用可能。 QEMUのインスタンスをコマンドラインで起動する QEMUを使用して仮想マシンを起動するための基本的なコマンド例を示します。
+qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -cdrom /path/to/installer.iso -boot d qemu-system-x86_64: QEMUのエミュレータ実行ファイル -enable-kvm: KVMアクセラレーションを有効にする -m 2048: 仮想マシンに割り当てるメモリ量（MB単位） -hda /path/to/disk.img: 仮想ディスクイメージを指定 -cdrom /path/to/installer.iso: インストールメディアとしてISOイメージを指定 -boot d: CD-ROMからブート QEMUモニタを利用してスナップショットを管理する QEMUモニタは、QEMU実行中に仮想マシンを管理するためのインターフェースです。スナップショットの管理も含まれます。
+モニタにアクセスする: QEMU起動時に-monitor stdioオプションを追加すると、QEMUモニタにアクセスできます。 qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -monitor stdio スナップショットの作成: (qemu) savevm snapshot_name スナップショットの復元: (qemu) loadvm snapshot_name スナップショットの一覧表示: (qemu) info snapshots QEMU Guest AgentとVirtIOデバイスドライバをインストールする QEMU Guest Agent QEMU Guest Agentは、ホストとゲストOS間の通信を改善し、効率的な管理を可能にするためのデーモンです。"/>
+<meta name="twitter:site" content="@example"/>
+
+
+
+<meta itemprop="name" content="QEMU 主な知識分野">
+<meta itemprop="description" content="KVMとネットワークとストレージを含む、QEMUの構造を理解する QEMU（Quick Emulator）は、オープンソースのホスト型ハイパーバイザーで、完全仮想化および準仮想化の機能を提供します。QEMUは単独で仮想化を実現できますが、一般的にはKVM（Kernel-based Virtual Machine）と組み合わせて使用されます。
+KVM 概要: KVMはLinuxカーネルに統合された仮想化技術で、ハードウェアの仮想化支援機能（Intel VT-xやAMD-V）を利用して効率的な仮想化を提供します。 役割: KVMはホストカーネルに仮想化拡張を追加し、QEMUが仮想マシンを実行するための基盤を提供します。QEMUはKVMを利用して仮想マシンのパフォーマンスを向上させます。 QEMUのネットワーク ユーザーモードネットワーキング: ホストのネットワークスタックを利用する簡単なネットワークオプション。設定が容易ですが、パフォーマンスが制限されることがあります。 ブリッジネットワーキング: 仮想マシンがホストの物理ネットワークに直接接続されるため、仮想マシンはホストのネットワークと同じネットワークに参加します。 TAPインターフェース: 仮想ネットワークインターフェースを使用して、ホストと仮想マシン間での通信を実現します。仮想ネットワークブリッジと併用されることが多いです。 QEMUのストレージ 仮想ディスクイメージ: 仮想マシンのストレージとして使用されるディスクイメージファイル（QCOW2、RAWなど）。 パススルー: ホストの物理ディスクやパーティションを直接仮想マシンに割り当てる方法。 ネットワークストレージ: iSCSI、NFS、Cephなどのネットワークベースのストレージを利用可能。 QEMUのインスタンスをコマンドラインで起動する QEMUを使用して仮想マシンを起動するための基本的なコマンド例を示します。
+qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -cdrom /path/to/installer.iso -boot d qemu-system-x86_64: QEMUのエミュレータ実行ファイル -enable-kvm: KVMアクセラレーションを有効にする -m 2048: 仮想マシンに割り当てるメモリ量（MB単位） -hda /path/to/disk.img: 仮想ディスクイメージを指定 -cdrom /path/to/installer.iso: インストールメディアとしてISOイメージを指定 -boot d: CD-ROMからブート QEMUモニタを利用してスナップショットを管理する QEMUモニタは、QEMU実行中に仮想マシンを管理するためのインターフェースです。スナップショットの管理も含まれます。
+モニタにアクセスする: QEMU起動時に-monitor stdioオプションを追加すると、QEMUモニタにアクセスできます。 qemu-system-x86_64 -enable-kvm -m 2048 -hda /path/to/disk.img -monitor stdio スナップショットの作成: (qemu) savevm snapshot_name スナップショットの復元: (qemu) loadvm snapshot_name スナップショットの一覧表示: (qemu) info snapshots QEMU Guest AgentとVirtIOデバイスドライバをインストールする QEMU Guest Agent QEMU Guest Agentは、ホストとゲストOS間の通信を改善し、効率的な管理を可能にするためのデーモンです。"><meta itemprop="datePublished" content="2024-07-18T18:10:43+09:00" />
+<meta itemprop="dateModified" content="2024-07-18T18:10:43+09:00" />
+<meta itemprop="wordCount" content="160">
+
+<meta itemprop="image" content="https://croissant.github.io/it-certs/images/social_card_bg_hu24b6b25ef60ca259d3d1b88ebbfdfb28_6698_ff596f01b4bcccadcda7253f8528281b.webp"/>
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/it-certs/original.min.css" rel="stylesheet">
+
+  
+    
+    <link href="/it-certs/syntax.min.css" rel="stylesheet">
+  
+
+  
+
+  
+</head>
+
+<body>
+  <header><a class="skip-link" href="#main-content">Skip to main content</a>
+
+<a href="/it-certs/" class="title"><h1>it-certs</h1></a>
+<nav>
+  <a href="/it-certs/">Home</a>
+
+  <a href="/it-certs/lpic3/">LPIC3</a>
+
+
+
+
+
+
+
+
+</nav>
+</header>
+  <main id="main-content">
+
+<h1>QEMU 主な知識分野</h1>
+<p class="byline">
+  
+</p>
+
+<content>
+  <h3 id="kvmとネットワークとストレージを含むqemuの構造を理解する">KVMとネットワークとストレージを含む、QEMUの構造を理解する</h3>
+<p><strong>QEMU</strong>（Quick Emulator）は、オープンソースのホスト型ハイパーバイザーで、完全仮想化および準仮想化の機能を提供します。QEMUは単独で仮想化を実現できますが、一般的にはKVM（Kernel-based Virtual Machine）と組み合わせて使用されます。</p>
+<h4 id="kvm">KVM</h4>
+<ul>
+<li><strong>概要</strong>: KVMはLinuxカーネルに統合された仮想化技術で、ハードウェアの仮想化支援機能（Intel VT-xやAMD-V）を利用して効率的な仮想化を提供します。</li>
+<li><strong>役割</strong>: KVMはホストカーネルに仮想化拡張を追加し、QEMUが仮想マシンを実行するための基盤を提供します。QEMUはKVMを利用して仮想マシンのパフォーマンスを向上させます。</li>
+</ul>
+<h4 id="qemuのネットワーク">QEMUのネットワーク</h4>
+<ul>
+<li><strong>ユーザーモードネットワーキング</strong>: ホストのネットワークスタックを利用する簡単なネットワークオプション。設定が容易ですが、パフォーマンスが制限されることがあります。</li>
+<li><strong>ブリッジネットワーキング</strong>: 仮想マシンがホストの物理ネットワークに直接接続されるため、仮想マシンはホストのネットワークと同じネットワークに参加します。</li>
+<li><strong>TAPインターフェース</strong>: 仮想ネットワークインターフェースを使用して、ホストと仮想マシン間での通信を実現します。仮想ネットワークブリッジと併用されることが多いです。</li>
+</ul>
+<h4 id="qemuのストレージ">QEMUのストレージ</h4>
+<ul>
+<li><strong>仮想ディスクイメージ</strong>: 仮想マシンのストレージとして使用されるディスクイメージファイル（QCOW2、RAWなど）。</li>
+<li><strong>パススルー</strong>: ホストの物理ディスクやパーティションを直接仮想マシンに割り当てる方法。</li>
+<li><strong>ネットワークストレージ</strong>: iSCSI、NFS、Cephなどのネットワークベースのストレージを利用可能。</li>
+</ul>
+<h3 id="qemuのインスタンスをコマンドラインで起動する">QEMUのインスタンスをコマンドラインで起動する</h3>
+<p>QEMUを使用して仮想マシンを起動するための基本的なコマンド例を示します。</p>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -enable-kvm -m <span class="m">2048</span> -hda /path/to/disk.img -cdrom /path/to/installer.iso -boot d</span></span></code></pre></div>
+<ul>
+<li><code>qemu-system-x86_64</code>: QEMUのエミュレータ実行ファイル</li>
+<li><code>-enable-kvm</code>: KVMアクセラレーションを有効にする</li>
+<li><code>-m 2048</code>: 仮想マシンに割り当てるメモリ量（MB単位）</li>
+<li><code>-hda /path/to/disk.img</code>: 仮想ディスクイメージを指定</li>
+<li><code>-cdrom /path/to/installer.iso</code>: インストールメディアとしてISOイメージを指定</li>
+<li><code>-boot d</code>: CD-ROMからブート</li>
+</ul>
+<h3 id="qemuモニタを利用してスナップショットを管理する">QEMUモニタを利用してスナップショットを管理する</h3>
+<p>QEMUモニタは、QEMU実行中に仮想マシンを管理するためのインターフェースです。スナップショットの管理も含まれます。</p>
+<ul>
+<li><strong>モニタにアクセスする</strong>: QEMU起動時に<code>-monitor stdio</code>オプションを追加すると、QEMUモニタにアクセスできます。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -enable-kvm -m <span class="m">2048</span> -hda /path/to/disk.img -monitor stdio</span></span></code></pre></div>
+<ul>
+<li><strong>スナップショットの作成</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">(qemu) savevm snapshot_name</span></span></code></pre></div>
+<ul>
+<li><strong>スナップショットの復元</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">(qemu) loadvm snapshot_name</span></span></code></pre></div>
+<ul>
+<li><strong>スナップショットの一覧表示</strong>:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">(qemu) info snapshots</span></span></code></pre></div>
+<h3 id="qemu-guest-agentとvirtioデバイスドライバをインストールする">QEMU Guest AgentとVirtIOデバイスドライバをインストールする</h3>
+<h4 id="qemu-guest-agent">QEMU Guest Agent</h4>
+<p>QEMU Guest Agentは、ホストとゲストOS間の通信を改善し、効率的な管理を可能にするためのデーモンです。</p>
+<ul>
+<li><strong>インストール</strong>（例：Ubuntu）:</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install qemu-guest-agent
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> qemu-guest-agent
+</span></span><span class="line"><span class="cl">sudo systemctl start qemu-guest-agent</span></span></code></pre></div>
+<h4 id="virtioデバイスドライバ">VirtIOデバイスドライバ</h4>
+<p>VirtIOドライバは、仮想化された環境で効率的なI/O操作を提供するためのドライバです。</p>
+<ul>
+<li><strong>インストール</strong>（例：Windowsゲスト）:
+<ol>
+<li>VirtIOドライバのISOイメージをダウンロードし、仮想マシンにマウント。</li>
+<li>WindowsゲストOSでISOイメージからドライバをインストール。</li>
+</ol>
+</li>
+</ul>
+<h3 id="ネットワークとストレージを含むqemuのトラブルシューティング">ネットワークとストレージを含む、QEMUのトラブルシューティング</h3>
+<h4 id="ネットワークのトラブルシューティング">ネットワークのトラブルシューティング</h4>
+<ul>
+<li><strong>仮想マシンがネットワークに接続できない</strong>:
+<ul>
+<li>ブリッジインターフェースの設定を確認。</li>
+<li><code>ifconfig</code>や<code>ip addr</code>コマンドを使用してネットワーク設定を確認。</li>
+<li><code>iptables</code>や<code>firewalld</code>の設定を確認。</li>
+</ul>
+</li>
+</ul>
+<h4 id="ストレージのトラブルシューティング">ストレージのトラブルシューティング</h4>
+<ul>
+<li><strong>仮想ディスクが認識されない</strong>:
+<ul>
+<li>仮想ディスクイメージのパスと形式を確認。</li>
+<li>QEMUの出力ログを確認してエラーを特定。</li>
+<li>必要に応じて、ディスクイメージを変換（<code>qemu-img convert</code>コマンド）して再試行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="qemuの重要な設定パラメータの知識">QEMUの重要な設定パラメータの知識</h3>
+<ul>
+<li><strong>-cpu</strong>: 仮想マシンに使用するCPUタイプを指定。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -cpu host</span></span></code></pre></div>
+<ul>
+<li><strong>-smp</strong>: 仮想マシンに割り当てる仮想CPUの数を指定。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -smp <span class="m">4</span></span></span></code></pre></div>
+<ul>
+<li><strong>-m</strong>: 仮想マシンに割り当てるメモリ量を指定。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -m <span class="m">2048</span></span></span></code></pre></div>
+<ul>
+<li><strong>-hda, -hdb, -hdc, -hdd</strong>: 仮想マシンのディスクドライブを指定。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -hda /path/to/disk.img</span></span></code></pre></div>
+<ul>
+<li><strong>-netdev</strong>: 仮想ネットワークデバイスを設定。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -netdev user,id<span class="o">=</span>mynet0 -device e1000,netdev<span class="o">=</span>mynet0</span></span></code></pre></div>
+<ul>
+<li><strong>-boot</strong>: ブートデバイスを指定。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -boot d</span></span></code></pre></div>
+<ul>
+<li><strong>-vnc</strong>: VNCサーバを起動し、リモートから仮想マシンのコンソールに接続。</li>
+</ul>
+
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">qemu-system-x86_64 -vnc :1</span></span></code></pre></div>
+<p>これらのパラメータを理解し、適切に使用することで、QEMUによる仮想マシンの設定と管理が効率的に行えるようになります。</p>
+
+</content>
+<p>
+  
+</p>
+
+
+
+
+  </main>
+  <footer><small>
+  croissant | 
+</small></footer>
+
+    
+</body>
+
+</html>
