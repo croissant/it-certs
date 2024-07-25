@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://croissant.github.io/it-certs/sitemap.xml
